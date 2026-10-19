@@ -46,12 +46,12 @@ test('mobile application, pending gate, approval, learning, feedback, and admin 
   await page.getByLabel('Email address', { exact: true }).fill('builder@example.com');
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page
-    .getByLabel('What would you love to build?')
+    .getByLabel('What would you like to build?')
     .fill('A machine learning project to estimate bike rental duration.');
   await page
     .getByLabel('A quick Python check')
     .fill('It returns [2, 4, 6] because each number is multiplied by two.');
-  await page.getByLabel('When could you join a weekly group session?').fill('Saturday mornings');
+  await page.getByLabel('Weekly session availability').fill('Saturday mornings');
   await page.getByLabel('I can make time').check();
   await page.getByLabel('I’ve read the privacy notice').check();
   await page.getByRole('button', { name: 'Send my application' }).click();
@@ -76,7 +76,7 @@ test('mobile application, pending gate, approval, learning, feedback, and admin 
   await expect(admin.getByLabel('Six-digit code')).toBeVisible();
   await admin.getByLabel('Six-digit code').fill(codes.get('owner@example.com')!);
   await admin.getByRole('button', { name: 'Open my lab' }).click();
-  await admin.getByRole('link', { name: 'Manage the lab' }).click();
+  await admin.getByRole('link', { name: 'Admin', exact: true }).click();
   await admin.locator('.admin-application summary').click();
   await admin.getByLabel('Application status', { exact: true }).selectOption('approved');
   await admin.getByRole('button', { name: 'Save status' }).click();
@@ -85,13 +85,13 @@ test('mobile application, pending gate, approval, learning, feedback, and admin 
 
   await page.getByRole('button', { name: 'Refresh status' }).click();
   await page.getByRole('link', { name: 'Go to my learning' }).click();
-  await expect(page.getByRole('heading', { name: /Hey Test/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Welcome back, Test/ })).toBeVisible();
   await page.screenshot({ path: 'test-results/dashboard-mobile.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({ path: 'test-results/dashboard-desktop.png', fullPage: true });
-  await page.getByRole('link', { name: 'Start your first lesson' }).click();
+  await page.getByRole('link', { name: 'Start learning' }).click();
   await page.getByLabel('The number written in the image', { exact: true }).check();
-  await page.getByRole('button', { name: 'Check my understanding' }).click();
+  await page.getByRole('button', { name: 'Check answers' }).click();
   await expect(page.getByText('Nice work. This lesson is complete.')).toBeVisible();
   await page.reload();
   await expect(page.getByText('Completed', { exact: true })).toBeVisible();
@@ -138,8 +138,8 @@ test('public navigation, resource search, sample lesson and desktop layout', asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
-  await page.getByRole('link', { name: 'Explore the program', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'The path ahead' })).toBeVisible();
+  await page.getByRole('link', { name: 'See the curriculum', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Curriculum' })).toBeVisible();
   await page.getByRole('link', { name: 'Try a sample lesson' }).click();
   await page.getByRole('button', { name: 'B The rental duration in minutes' }).click();
   await expect(

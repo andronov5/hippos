@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import {
   Link,
   NavLink,
@@ -17,6 +17,7 @@ import {
   Check,
   CheckCircle2,
   ChevronRight,
+  ChevronDown,
   Clock3,
   Code2,
   ExternalLink,
@@ -69,7 +70,7 @@ export function LabLayout() {
       <a href="#main" className="skip-link">
         Skip to content
       </a>
-      <aside className={`sidebar ${menu ? 'open' : ''}`}>
+      <aside id="learning-sidebar" className={`sidebar ${menu ? 'open' : ''}`}>
         <div className="sidebar-brand">
           <Logo />
           <button
@@ -85,19 +86,23 @@ export function LabLayout() {
             <Leaf size={19} />
           </span>
           <div>
-            <strong>The founding cohort</strong>
-            <span>ML FOUNDATIONS · BETA 01</span>
+            <strong>ML Foundations</strong>
+            <span>COHORT 01 · FREE BETA</span>
           </div>
         </div>
-        <span className="nav-label">YOUR LEARNING SPACE</span>
         <nav aria-label="Learning navigation">
           <NavLink to="/learn" end>
             <LayoutDashboard size={18} />
-            My learning
+            Overview
           </NavLink>
-          <NavLink to="/learn/course">
+          <NavLink
+            to="/learn/course"
+            className={({ isActive }) =>
+              isActive || location.pathname.startsWith('/learn/lesson/') ? 'active' : ''
+            }
+          >
             <BookOpen size={18} />
-            Course library<span className="nav-count">4</span>
+            Lessons
           </NavLink>
           <NavLink to="/learn/projects">
             <FolderOpen size={18} />
@@ -105,7 +110,7 @@ export function LabLayout() {
           </NavLink>
           <NavLink to="/learn/sessions">
             <CalendarDays size={18} />
-            Build room
+            Sessions
           </NavLink>
           <NavLink to="/learn/resources">
             <Search size={18} />
@@ -114,23 +119,10 @@ export function LabLayout() {
           {user?.role === 'admin' && (
             <NavLink to="/admin">
               <Settings2 size={18} />
-              Manage the lab
+              Admin
             </NavLink>
           )}
         </nav>
-        <div className="sidebar-note">
-          <Sparkles size={21} />
-          <strong>A little progress counts.</strong>
-          <p>
-            One idea, one experiment,
-            <br />
-            one step at a time.
-          </p>
-          <Link to="/sample">
-            Revisit the starting point
-            <ArrowUpRight size={14} />
-          </Link>
-        </div>
         <div className="sidebar-bottom">
           <span className="user-avatar">{user?.name.charAt(0).toUpperCase()}</span>
           <div>
@@ -159,6 +151,8 @@ export function LabLayout() {
             <button
               className="icon-button mobile-toggle"
               aria-label="Open learning navigation"
+              aria-expanded={menu}
+              aria-controls="learning-sidebar"
               onClick={() => setMenu(true)}
             >
               <Menu />
@@ -166,11 +160,23 @@ export function LabLayout() {
             <span>Lerabyte Lab</span>
             <ChevronRight size={14} />
             <span className="muted">
-              {location.pathname === '/admin' ? 'Admin workspace' : 'Your learning space'}
+              {location.pathname === '/admin'
+                ? 'Admin'
+                : location.pathname.includes('/lesson/')
+                  ? 'Lessons'
+                  : (
+                      {
+                        '/learn': 'Overview',
+                        '/learn/course': 'Lessons',
+                        '/learn/projects': 'My project',
+                        '/learn/sessions': 'Sessions',
+                        '/learn/resources': 'Resources',
+                      } as Record<string, string>
+                    )[location.pathname] || 'Learning'}
             </span>
           </div>
           <Link to="/" className="text-link">
-            Visit the website
+            Website
             <ArrowUpRight size={15} />
           </Link>
         </header>
@@ -205,171 +211,77 @@ export function Dashboard() {
     <>
       <div className="dashboard-greeting">
         <div>
-          <span className="eyebrow">YOUR CURIOSITY, IN PROGRESS</span>
-          <h1>
-            Hey {user?.name.split(' ')[0]}, let’s build.<span className="greeting-star">✳</span>
-          </h1>
-          <p>You don’t need to know everything. Just take the next step.</p>
+          <h1>Welcome back, {user?.name.split(' ')[0]}.</h1>
+          <p>Here’s your next step.</p>
         </div>
-        <Pill tone="outline">COHORT 01</Pill>
       </div>
-      <div className="dashboard-grid">
-        <div className="dashboard-primary">
-          <section className="continue-card">
-            <div className="row spread">
-              <Pill tone="white">
-                {completed.size ? 'PICK UP WHERE YOU LEFT OFF' : 'YOUR FIRST STEP'}
-              </Pill>
-              <span className="small-text">WEEK 0{currentWeek} / 04</span>
-            </div>
-            <div className="continue-body">
-              <div>
-                <span className="tiny-label">MACHINE LEARNING FOUNDATIONS</span>
-                <h2>{next?.title || 'Look at how far you’ve come.'}</h2>
-                <p>
-                  {next
-                    ? 'A small idea today. Something you can build on tomorrow.'
-                    : 'You’ve completed the lesson checks. Keep refining your project and review your feedback.'}
-                </p>
-                <Link
-                  className="button dark"
-                  to={next ? `/learn/lesson/${next.id}` : '/learn/projects'}
-                >
-                  {next
-                    ? completed.size
-                      ? 'Continue learning'
-                      : 'Start your first lesson'
-                    : 'Open my project'}
-                  <ArrowRight size={18} />
-                </Link>
-              </div>
-              <div className="continue-art" aria-hidden="true">
-                <div className="art-ring" />
-                <div className="art-tile">
-                  <Code2 size={44} strokeWidth={1.3} />
-                </div>
-                <span className="art-plus">+</span>
-                <span className="art-asterisk">✳</span>
-              </div>
-            </div>
-            <div className="continue-progress">
-              <div className="row spread">
-                <span>{completed.size} of 12 lessons completed</span>
-                <strong>{percentage}%</strong>
-              </div>
-              <ProgressBar value={percentage} />
-            </div>
-          </section>
-          <div className="section-heading compact">
-            <h2>Your learning path</h2>
-            <Link to="/learn/course" className="text-link">
-              View all
-              <ArrowRight size={15} />
-            </Link>
+      <div className="dashboard-grid simple-dashboard">
+        <section className="continue-card">
+          <div className="row spread">
+            <Pill tone="white">{next ? 'UP NEXT' : 'LESSONS COMPLETE'}</Pill>
+            <span className="small-text">WEEK {currentWeek} OF 4</span>
           </div>
-          <div className="unit-grid">
-            {units.map((unit) => {
-              const count = unit.lessons.filter((l) => completed.has(l.id)).length;
-              return (
-                <Link to={`/learn/course#week-${unit.id}`} className="unit-card" key={unit.id}>
-                  <div className="row spread">
-                    <span className={`unit-tile ${unit.color}`}>
-                      {String(unit.id).padStart(2, '0')}
-                    </span>
-                    {count === 3 ? (
-                      <CheckCircle2 size={20} className="green" />
-                    ) : (
-                      <span className="tiny-label">WEEK {unit.id}</span>
-                    )}
-                  </div>
-                  <h3>{unit.short}</h3>
-                  <p>{unit.lessons.length} lessons · 1 project milestone</p>
-                  <div className="unit-progress">
-                    <ProgressBar value={Math.round((count / 3) * 100)} />
-                    <span>{count}/3</span>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-          <div className="project-nudge">
-            <span className="project-nudge-icon">
-              <FolderOpen size={23} />
-            </span>
+          <div className="continue-body">
             <div>
-              <span className="tiny-label">MAKE IT YOURS</span>
-              <h3>Your idea has a home here.</h3>
-              <p>Build your project one weekly milestone at a time.</p>
+              <h2>{next?.title || 'Ready to share your project?'}</h2>
+              <p>
+                {next
+                  ? `${next.kind} · About ${next.minutes} minutes`
+                  : 'Review your feedback and finish your final milestone.'}
+              </p>
+              <Link
+                className="button dark"
+                to={next ? `/learn/lesson/${next.id}` : '/learn/projects'}
+              >
+                {next ? (completed.size ? 'Continue lesson' : 'Start learning') : 'Open my project'}
+                <ArrowRight size={18} />
+              </Link>
             </div>
-            <Link to="/learn/projects" className="icon-button" aria-label="Open my project">
-              <ArrowUpRight size={22} />
-            </Link>
+            <div className="continue-art" aria-hidden="true">
+              <div className="art-ring" />
+              <div className="art-tile">
+                <Code2 size={44} strokeWidth={1.3} />
+              </div>
+            </div>
           </div>
-        </div>
-        <aside className="dashboard-secondary">
-          <section className="panel weekly-focus">
+          <div className="continue-progress">
             <div className="row spread">
-              <span className="eyebrow">THIS WEEK’S FOCUS</span>
-              <Target size={19} />
+              <span>
+                {completed.size} of {allLessons.length} lessons complete
+              </span>
+              <Link to="/learn/course" className="text-link">
+                All lessons <ArrowRight size={14} />
+              </Link>
             </div>
-            <h2>{units[currentWeek - 1].milestone}</h2>
-            <p>
-              {currentWeek === 1
-                ? 'Find a question you care about. Decide what you want to predict and where your data could come from.'
-                : units[currentWeek - 1].description}
-            </p>
-            <ul className="focus-checklist">
-              <li>
-                <span className={completed.has(`${currentWeek}-1`) ? 'checked' : ''}>
-                  {completed.has(`${currentWeek}-1`) ? <Check size={12} /> : null}
-                </span>
-                Understand the core idea
-              </li>
-              <li>
-                <span className={completed.has(`${currentWeek}-2`) ? 'checked' : ''}>
-                  {completed.has(`${currentWeek}-2`) ? <Check size={12} /> : null}
-                </span>
-                Try a small experiment
-              </li>
-              <li>
-                <span
-                  className={data.submissions.some((s) => s.week === currentWeek) ? 'checked' : ''}
-                >
-                  {data.submissions.some((s) => s.week === currentWeek) ? (
-                    <Check size={12} />
-                  ) : null}
-                </span>
-                Submit your milestone
-              </li>
-            </ul>
-            <Link to={`/learn/projects#week-${currentWeek}`} className="text-link">
-              Open the assignment
-              <ArrowRight size={16} />
-            </Link>
-          </section>
-          <section className="session-card">
-            <span className="session-icon">
-              <UsersIcon />
-            </span>
-            <span className="eyebrow">BETTER, TOGETHER</span>
-            <h2>{data.session.title}</h2>
-            <p>
-              {data.session.date
-                ? formatDate(data.session.date)
-                : 'The first session time is coming soon. Bring a question and something you’re working on.'}
-            </p>
-            <Link to="/learn/sessions" className="text-link">
-              Visit the build room
-              <ArrowRight size={16} />
-            </Link>
-          </section>
-          <div className="help-note">
-            <HelpCircle size={18} />
-            <p>
-              Stuck? Save the error and what you tried. We’ll work through it in the build room.
-            </p>
+            <ProgressBar value={percentage} />
           </div>
-        </aside>
+        </section>
+        <section className="panel weekly-focus">
+          <span className="eyebrow">THIS WEEK’S PROJECT</span>
+          <h2>{units[currentWeek - 1].milestone}</h2>
+          <p>{units[currentWeek - 1].description}</p>
+          <Link to={`/learn/projects#week-${currentWeek}`} className="text-link">
+            View milestone <ArrowRight size={16} />
+          </Link>
+        </section>
+      </div>
+      <div className="dashboard-shortcuts">
+        <Link to="/learn/sessions" className="dashboard-shortcut">
+          <CalendarDays size={23} />
+          <div>
+            <h2>Next group session</h2>
+            <p>{data.session.date ? formatDate(data.session.date) : 'Date to be confirmed'}</p>
+          </div>
+          <ArrowRight size={18} />
+        </Link>
+        <Link to="/learn/resources" className="dashboard-shortcut">
+          <BookOpen size={23} />
+          <div>
+            <h2>Weekly readings</h2>
+            <p>Resources for your project</p>
+          </div>
+          <ArrowRight size={18} />
+        </Link>
       </div>
     </>
   );
@@ -388,15 +300,53 @@ export function formatDate(value: string) {
   }).format(new Date(value));
 }
 
+function WeekSection({
+  id,
+  initialOpen,
+  className,
+  summary,
+  children,
+}: {
+  id: number;
+  initialOpen: boolean;
+  className: string;
+  summary: ReactNode;
+  children: ReactNode;
+}) {
+  const { hash } = useLocation();
+  const [expanded, setExpanded] = useState(hash ? hash === `#week-${id}` : initialOpen);
+  useEffect(() => {
+    if (hash === `#week-${id}`) setExpanded(true);
+  }, [hash, id]);
+  return (
+    <details
+      id={`week-${id}`}
+      className={className}
+      open={expanded}
+      onToggle={(event) => setExpanded(event.currentTarget.open)}
+    >
+      <summary>
+        {summary}
+        <ChevronDown className="accordion-chevron" size={20} />
+      </summary>
+      {children}
+    </details>
+  );
+}
+
 export function CourseLibrary() {
   const { data } = useLab();
   const completed = new Set(data.progress.map((p) => p.lesson_id));
+  const currentWeek =
+    allLessons.find(
+      (l) =>
+        !completed.has(l.id) && data.lessons.some((item) => item.id === l.id && item.published),
+    )?.unitId || 4;
   return (
     <>
       <div className="page-title">
-        <span className="eyebrow">ONE STEP BUILDS ON THE NEXT</span>
-        <h1>Your learning path.</h1>
-        <p>Machine Learning Foundations · Four weeks from an idea to a project of your own.</p>
+        <h1>Lessons</h1>
+        <p>Machine Learning Foundations · 4 weeks</p>
       </div>
       <div className="learning-overview">
         <span className="overview-icon">
@@ -406,21 +356,29 @@ export function CourseLibrary() {
           <strong>
             {completed.size} of {allLessons.length} lessons completed
           </strong>
-          <p>Lesson checks and project reviews are tracked separately.</p>
         </div>
         <Pill>{Math.round((completed.size / 12) * 100)}% COMPLETE</Pill>
       </div>
       <div className="learner-units">
         {units.map((unit) => (
-          <section id={`week-${unit.id}`} className="learner-unit" key={unit.id}>
-            <div className="learner-unit-heading">
-              <span className={`unit-tile ${unit.color}`}>0{unit.id}</span>
-              <div>
-                <span className="tiny-label">WEEK {unit.id}</span>
-                <h2>{unit.title}</h2>
-                <p>{unit.description}</p>
-              </div>
-            </div>
+          <WeekSection
+            key={unit.id}
+            id={unit.id}
+            initialOpen={unit.id === currentWeek}
+            className="learner-unit week-accordion"
+            summary={
+              <>
+                <span className={`unit-tile ${unit.color}`}>0{unit.id}</span>
+                <div className="week-heading-copy">
+                  <span className="tiny-label">WEEK {unit.id}</span>
+                  <h2>{unit.title}</h2>
+                </div>
+                <span className="accordion-meta">
+                  {unit.lessons.filter((l) => completed.has(l.id)).length}/3 complete
+                </span>
+              </>
+            }
+          >
             <div className="lesson-list">
               {unit.lessons.map((lesson, i) => {
                 const unlocked = data.lessons.some((l) => l.id === lesson.id && l.published);
@@ -464,7 +422,7 @@ export function CourseLibrary() {
               </span>
               <ArrowUpRight size={17} />
             </Link>
-          </section>
+          </WeekSection>
         ))}
       </div>
     </>
@@ -532,7 +490,7 @@ function LessonView({ id }: { id: string }) {
   return (
     <>
       <div className="breadcrumb">
-        <Link to="/learn/course">Course library</Link>
+        <Link to="/learn/course">Lessons</Link>
         <span>/</span>Week {lesson.unitId}
         <span>/</span>
         {lesson.kind}
@@ -557,6 +515,11 @@ function LessonView({ id }: { id: string }) {
             <span>·</span>
             <span>With Lera</span>
           </div>
+          <nav className="lesson-jumps" aria-label="Lesson sections">
+            <a href="#reading">Lesson</a>
+            <a href="#practice">Practice</a>
+            <a href="#check">Knowledge check</a>
+          </nav>
           {lesson.video_url ? (
             <div className="video-frame">
               <iframe
@@ -573,14 +536,11 @@ function LessonView({ id }: { id: string }) {
               <BookOpen size={21} />
               <div>
                 <strong>Start with the written lesson</strong>
-                <p>
-                  The video walkthrough hasn’t been added yet. The explanation and practice below
-                  are ready to explore.
-                </p>
+                <p>Video coming soon. The written lesson is ready below.</p>
               </div>
             </div>
           )}
-          <div className="lesson-prose">
+          <div className="lesson-prose" id="reading">
             {lesson.body.split(/\n\s*\n/).map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
@@ -588,7 +548,7 @@ function LessonView({ id }: { id: string }) {
           <section className="takeaway-card">
             <div className="row">
               <Sparkles size={20} />
-              <h2>Keep these ideas with you</h2>
+              <h2>Key ideas</h2>
             </div>
             <ul>
               {lesson.takeaways.map((t) => (
@@ -596,20 +556,19 @@ function LessonView({ id }: { id: string }) {
               ))}
             </ul>
           </section>
-          <section className="practice-card">
-            <span className="eyebrow">YOUR TURN</span>
-            <h2>Put the idea to work.</h2>
+          <section className="practice-card" id="practice">
+            <h2>Practice</h2>
             <p>{lesson.exercise}</p>
           </section>
-          <form className="quiz-card" onSubmit={check}>
+          <form className="quiz-card" id="check" onSubmit={check}>
             <div className="row spread">
-              <span className="eyebrow">A QUICK KNOWLEDGE CHECK</span>
+              <span className="eyebrow">KNOWLEDGE CHECK</span>
               <Pill>
                 {lesson.quiz.length} {lesson.quiz.length === 1 ? 'QUESTION' : 'QUESTIONS'}
               </Pill>
             </div>
-            <h2>Did the idea click?</h2>
-            <p className="muted">Check your understanding. You can retry as often as you need.</p>
+            <h2>Check your understanding</h2>
+            <p className="muted">You can retry as often as you need.</p>
             {lesson.quiz.map((q, index) => (
               <fieldset className="quiz-question" key={index}>
                 <legend>
@@ -652,7 +611,7 @@ function LessonView({ id }: { id: string }) {
               </Notice>
             ) : null}
             <button disabled={busy} className="button">
-              {busy ? 'Checking…' : result?.passed ? 'Check again' : 'Check my understanding'}
+              {busy ? 'Checking…' : result?.passed ? 'Check again' : 'Check answers'}
               <Check size={17} />
             </button>
           </form>
@@ -686,7 +645,7 @@ function LessonView({ id }: { id: string }) {
             ))}
           </div>
           <div className="reading-sidebar">
-            <span className="tiny-label">GO A LITTLE DEEPER</span>
+            <span className="tiny-label">RELATED READINGS</span>
             {unit.readings.map((r) => (
               <a href={r.url} target="_blank" rel="noopener noreferrer" key={r.url}>
                 <BookOpen size={15} />
@@ -706,35 +665,31 @@ function LessonView({ id }: { id: string }) {
 
 export function Projects() {
   const { data, reload } = useLab();
+  const currentWeek =
+    data.submissions.find((s) => s.status === 'revision_requested')?.week ||
+    units.find((unit) => !data.submissions.some((s) => s.week === unit.id))?.id ||
+    4;
   return (
     <>
       <div className="page-title">
-        <span className="eyebrow">SOMETHING ONLY YOU WOULD MAKE</span>
-        <h1>Your idea. Your project.</h1>
-        <p>
-          One small project, four milestones. Submit your work, get feedback, and keep making it
-          better.
-        </p>
-      </div>
-      <div className="project-principle">
-        <Target size={23} />
-        <p>
-          <strong>A clear question beats a complicated project.</strong> Pick one prediction
-          problem, use a public dataset you can work with, and leave room to investigate mistakes.
-        </p>
+        <h1>My project</h1>
+        <p>Build one project in four milestones. Submit each step for feedback.</p>
       </div>
       <div className="project-milestones">
         {units.map((unit) => (
           <ProjectMilestone
             key={unit.id}
             unit={unit}
+            initialOpen={unit.id === currentWeek}
             submission={data.submissions.find((s) => s.week === unit.id)}
             reload={reload}
           />
         ))}
       </div>
-      <div className="project-rubric">
-        <h2>What thoughtful work looks like</h2>
+      <details className="project-rubric rubric-details">
+        <summary>
+          How your project is reviewed <ChevronDown size={18} />
+        </summary>
         <div>
           {[
             'A clear problem and appropriate data',
@@ -753,7 +708,7 @@ export function Projects() {
           Completing lesson checks does not automatically pass your project. Feedback and revisions
           are part of the process.
         </p>
-      </div>
+      </details>
     </>
   );
 }
@@ -761,8 +716,10 @@ function ProjectMilestone({
   unit,
   submission,
   reload,
+  initialOpen,
 }: {
   unit: (typeof units)[number];
+  initialOpen: boolean;
   submission?: Submission;
   reload: () => Promise<void>;
 }) {
@@ -793,106 +750,114 @@ function ProjectMilestone({
         ? 'Revision requested'
         : status === 'submitted'
           ? 'Submitted'
-          : 'Ready when you are';
+          : 'Not submitted';
   return (
-    <section className="milestone-card" id={`week-${unit.id}`}>
-      <div className="milestone-heading">
-        <span className={`unit-tile ${unit.color}`}>0{unit.id}</span>
-        <div>
-          <span className="tiny-label">WEEK {unit.id} MILESTONE</span>
-          <h2>{unit.milestone}</h2>
-        </div>
-        <Pill
-          tone={
-            status === 'reviewed' ? 'success' : status === 'revision_requested' ? 'warning' : ''
-          }
-        >
-          {label}
-        </Pill>
-      </div>
-      <p>{unit.assignment}</p>
-      {submission?.feedback && (
-        <div className="feedback-card">
-          <MessageCircle size={20} />
+    <WeekSection
+      id={unit.id}
+      initialOpen={initialOpen}
+      className="milestone-card week-accordion"
+      summary={
+        <>
+          <span className={`unit-tile ${unit.color}`}>0{unit.id}</span>
           <div>
-            <strong>Feedback from Lera</strong>
-            <p>{submission.feedback}</p>
-            {status === 'submitted' && (
-              <small>
-                From your previous review. Your latest revision is waiting for feedback.
-              </small>
-            )}
+            <span className="tiny-label">WEEK {unit.id}</span>
+            <h2>{unit.milestone}</h2>
           </div>
-        </div>
-      )}
-      {editing ? (
-        <form onSubmit={submit}>
-          <label>
-            Link to your project or notebook
-            <input
-              type="url"
-              required
-              maxLength={2048}
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://github.com/you/your-project"
-            />
-            <span className="field-help">Use an HTTPS link. Make sure Lera can open it.</span>
-          </label>
-          <label>
-            Your reflection
-            <textarea
-              rows={3}
-              required
-              minLength={20}
-              maxLength={3000}
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="What did you try? What changed? Where would feedback help?"
-            />
-          </label>
-          {error && <Notice error>{error}</Notice>}
-          <div className="row">
-            <button className="button small" disabled={busy}>
-              {busy ? 'Saving…' : submission ? 'Submit revision' : 'Submit milestone'}
-              <ArrowRight size={16} />
-            </button>
-            {submission && (
-              <button
-                type="button"
-                className="button ghost small"
-                onClick={() => setEditing(false)}
-              >
-                Cancel
+          <Pill
+            tone={
+              status === 'reviewed' ? 'success' : status === 'revision_requested' ? 'warning' : ''
+            }
+          >
+            {label}
+          </Pill>
+        </>
+      }
+    >
+      <div className="milestone-content">
+        <p>{unit.assignment}</p>
+        {submission?.feedback && (
+          <div className="feedback-card">
+            <MessageCircle size={20} />
+            <div>
+              <strong>Feedback from Lera</strong>
+              <p>{submission.feedback}</p>
+              {status === 'submitted' && (
+                <small>
+                  From your previous review. Your latest revision is waiting for feedback.
+                </small>
+              )}
+            </div>
+          </div>
+        )}
+        {editing ? (
+          <form onSubmit={submit}>
+            <label>
+              Link to your project or notebook
+              <input
+                type="url"
+                required
+                maxLength={2048}
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://github.com/you/your-project"
+              />
+              <span className="field-help">Use an HTTPS link. Make sure Lera can open it.</span>
+            </label>
+            <label>
+              Your reflection
+              <textarea
+                rows={3}
+                required
+                minLength={20}
+                maxLength={3000}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="What did you try? What changed? Where would feedback help?"
+              />
+            </label>
+            {error && <Notice error>{error}</Notice>}
+            <div className="row">
+              <button className="button small" disabled={busy}>
+                {busy ? 'Saving…' : submission ? 'Submit revision' : 'Submit milestone'}
+                <ArrowRight size={16} />
               </button>
-            )}
+              {submission && (
+                <button
+                  type="button"
+                  className="button ghost small"
+                  onClick={() => setEditing(false)}
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
+          </form>
+        ) : (
+          <div className="submitted-work">
+            <div>
+              <a
+                href={submission?.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link"
+              >
+                Open submitted work
+                <ExternalLink size={14} />
+              </a>
+              <p>{submission?.notes}</p>
+              <small className="muted">
+                Last submitted{' '}
+                {submission ? new Date(submission.updated_at).toLocaleDateString() : ''}
+              </small>
+            </div>
+            <button className="button secondary small" onClick={() => setEditing(true)}>
+              <Plus size={15} />
+              Revise
+            </button>
           </div>
-        </form>
-      ) : (
-        <div className="submitted-work">
-          <div>
-            <a
-              href={submission?.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-link"
-            >
-              Open submitted work
-              <ExternalLink size={14} />
-            </a>
-            <p>{submission?.notes}</p>
-            <small className="muted">
-              Last submitted{' '}
-              {submission ? new Date(submission.updated_at).toLocaleDateString() : ''}
-            </small>
-          </div>
-          <button className="button secondary small" onClick={() => setEditing(true)}>
-            <Plus size={15} />
-            Revise
-          </button>
-        </div>
-      )}
-    </section>
+        )}
+      </div>
+    </WeekSection>
   );
 }
 
@@ -903,11 +868,8 @@ export function Sessions() {
   return (
     <>
       <div className="page-title">
-        <span className="eyebrow">BRING YOUR QUESTIONS. BRING YOURSELF.</span>
-        <h1>The build room.</h1>
-        <p>
-          A weekly space to talk through ideas, untangle problems, and see what everyone is making.
-        </p>
+        <h1>Group sessions</h1>
+        <p>A weekly hour to work through questions and share your progress.</p>
       </div>
       <div className="build-room-grid">
         <section className="build-room-card">
@@ -932,10 +894,6 @@ export function Sessions() {
               <Clock3 size={19} />
               About 60 minutes
             </span>
-            <span>
-              <BookOpen size={19} />
-              Your notebook, your questions, your next step
-            </span>
           </div>
           {session.url ? (
             <a href={session.url} target="_blank" rel="noopener noreferrer" className="button dark">
@@ -950,8 +908,7 @@ export function Sessions() {
           )}
         </section>
         <section className="panel session-prep">
-          <span className="eyebrow">A LITTLE PREPARATION HELPS</span>
-          <h2>Make the most of it.</h2>
+          <h2>Bring two things</h2>
           <ol>
             <li>
               <strong>Bring one specific question.</strong>
@@ -961,22 +918,8 @@ export function Sessions() {
               <strong>Show something unfinished.</strong>
               <p>A small experiment or a stubborn problem is enough.</p>
             </li>
-            <li>
-              <strong>Give someone a useful thought.</strong>
-              <p>Ask a kind question. Share an observation. Be a good peer.</p>
-            </li>
           </ol>
         </section>
-      </div>
-      <div className="community-values">
-        <Leaf size={23} />
-        <div>
-          <h2>Different starting points. Shared curiosity.</h2>
-          <p>
-            Be patient with each other. Explain jargon, make room for different accents and time
-            zones, and ask before sharing someone else’s work.
-          </p>
-        </div>
       </div>
     </>
   );

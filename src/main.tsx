@@ -8,6 +8,7 @@ import '@fontsource/dm-sans/700.css';
 import '@fontsource/dm-serif-display/400.css';
 import '@fontsource/dm-serif-display/400-italic.css';
 import './styles.css';
+import './simplified.css';
 import { AuthProvider, Gate } from './auth';
 import { PublicLayout } from './components';
 import {
@@ -29,15 +30,15 @@ function RouteEffects() {
   useEffect(() => {
     const names: Record<string, string> = {
       '/': 'Learn it. Build it. Make it yours.',
-      '/program': 'The program',
+      '/program': 'Program',
       '/resources': 'Resources',
-      '/about': 'Meet the lab',
+      '/about': 'About the lab',
       '/signin': 'Sign in',
       '/application': 'Application status',
-      '/learn': 'My learning',
-      '/learn/course': 'Course library',
+      '/learn': 'Overview',
+      '/learn/course': 'Lessons',
       '/learn/projects': 'My project',
-      '/learn/sessions': 'Build room',
+      '/learn/sessions': 'Sessions',
       '/admin': 'Manage the lab',
     };
     document.title = `${names[pathname] || 'Your learning space'} · Lerabyte Lab`;

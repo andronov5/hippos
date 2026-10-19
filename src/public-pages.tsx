@@ -6,6 +6,7 @@ import {
   BookOpen,
   Check,
   CheckCircle2,
+  ChevronDown,
   Clock3,
   Code2,
   Compass,
@@ -38,7 +39,8 @@ export function Home() {
       <section className="hero container">
         <div className="hero-copy">
           <div className="eyebrow">
-            <span className="live-dot" />A small beta. A big first step.
+            <span className="live-dot" />
+            MACHINE LEARNING · FREE BETA
           </div>
           <h1>
             Less watching.
@@ -46,30 +48,31 @@ export function Home() {
             More <em>building.</em>
           </h1>
           <p className="hero-description">
-            You have the curiosity. Let’s turn it into something real. Learn machine learning, build
-            your own project, and find your people along the way.
+            Build your first machine learning project in four weeks, with guided lessons, feedback
+            from Lera, and a small group alongside you.
           </p>
           <div className="hero-buttons">
             <Link className="button" to="/#apply">
               Apply for the free beta
               <ArrowRight size={18} />
             </Link>
-            <ArrowLink to="/program">Explore the program</ArrowLink>
+            <ArrowLink to="/program">See the curriculum</ArrowLink>
           </div>
           <div className="hero-proof">
             <span>
               <Users size={17} />
-              15 curious builders
+              15 places
             </span>
             <span>
-              <Clock3 size={17} />4 weeks, together
+              <Clock3 size={17} />
+              4–6 hours / week
             </span>
           </div>
         </div>
         <div className="hero-visual">
           <div className="hero-card">
             <div className="hero-card-top">
-              <span className="tiny-label">YOUR NEXT CHAPTER</span>
+              <span className="tiny-label">YOUR FIRST ML PROJECT</span>
               <span className="round-icon">
                 <Sparkles size={17} />
               </span>
@@ -102,137 +105,45 @@ export function Home() {
           </span>
         </div>
       </section>
-      <div className="belief-strip">
-        <div className="container">
-          <span>
-            <BookOpen size={19} />A clear path to follow
-          </span>
-          <span>
-            <Code2 size={19} />A project that’s yours
-          </span>
-          <span>
-            <Users size={19} />
-            People to build with
-          </span>
-          <span>
-            <Leaf size={19} />
-            Free for the beta
-          </span>
+      <section className="container path-preview" aria-labelledby="path-heading">
+        <div className="path-preview-heading">
+          <h2 id="path-heading">Your four-week path</h2>
+          <ArrowLink to="/program">View curriculum</ArrowLink>
         </div>
-      </div>
-      <section className="section container">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">THE FIRST LEARNING PATH</span>
-            <h2>Start small. Go somewhere.</h2>
-          </div>
-          <ArrowLink to="/program">See the full curriculum</ArrowLink>
-        </div>
-        <Link to="/program" className="featured-course">
-          <div className="course-art">
-            <div className="mini-window">
-              <div className="window-dots">
-                <i />
-                <i />
-                <i />
-                <span>your_first_model.py</span>
-              </div>
-              <code>
-                <span>from</span> curiosity <span>import</span> ideas
-                <br />
-                <br />
-                model.fit(your_data)
-                <br />
-                <span className="code-comment"># this is where it starts.</span>
-              </code>
-              <div className="window-result">
-                <CheckCircle2 size={16} />
-                One idea closer.
-              </div>
-            </div>
-            <div className="art-circle" />
-          </div>
-          <div className="featured-course-copy">
-            <div className="row">
-              <Pill>FREE BETA</Pill>
-              <span className="muted small-text">Basic Python → your first ML project</span>
-            </div>
-            <h3>{course.title}</h3>
-            <p>
-              Understand the ideas behind the models. Work through real examples. Build, test, and
-              explain a project you care about.
-            </p>
-            <div className="course-facts">
-              <span>
-                <LayersIcon />4 units
-              </span>
-              <span>
-                <BookOpen size={15} />
-                12 lessons
-              </span>
-              <span>
-                <Clock3 size={15} />
-                4–6 hrs / week
-              </span>
-            </div>
-            <span className="text-link">
-              Take a look inside
-              <ArrowRight size={17} />
-            </span>
-          </div>
-        </Link>
+        <ol>
+          {units.map((unit) => (
+            <li key={unit.id}>
+              <span className={`unit-tile ${unit.color}`}>0{unit.id}</span>
+              <span>{unit.short}</span>
+            </li>
+          ))}
+        </ol>
       </section>
-      <section className="section how-section container">
-        <div>
-          <span className="eyebrow">A LITTLE STRUCTURE. ROOM TO EXPLORE.</span>
-          <h2>
-            You don’t have to
-            <br />
-            figure it all out alone.
-          </h2>
-          <p className="section-description">
-            A weekly rhythm that takes you from understanding an idea to actually using it.
-          </p>
-          <ArrowLink to="/about">Meet the person behind the lab</ArrowLink>
-        </div>
-        <div className="steps">
-          <StepRow number="01" title="Understand the idea">
-            Short lessons, useful readings, and room for questions.
-          </StepRow>
-          <StepRow number="02" title="Try it for yourself">
-            A full project walkthrough, then an experiment of your own.
-          </StepRow>
-          <StepRow number="03" title="Build it with people">
-            Weekly build rooms, project feedback, and a small group moving with you.
-          </StepRow>
-        </div>
-      </section>
-      <section id="apply" className="application-section">
+      <section className="application-section">
         <div className="container application-grid">
           <div className="application-copy">
-            <Pill tone="outline">THE FOUNDING COHORT</Pill>
+            <Pill tone="outline">JOIN THE BETA</Pill>
             <h2>
               Your next project
               <br />
               starts <em>here.</em>
             </h2>
             <p>
-              I’m bringing together 15 curious people for the first Lerabyte Lab beta. If you know a
-              little Python and want to put it to work, I’d love to hear what you want to build.
+              Know basic Python? Tell me what you’d like to build. I’m inviting 15 learners to help
+              shape this first cohort.
             </p>
             <CheckList
               items={[
-                'Four weeks of guided, hands-on learning',
-                'Three core lessons and one project milestone each week',
-                'A weekly group session and individual project feedback',
-                'Completely free for this beta cohort',
+                'Short lessons and a project walkthrough each week',
+                'Weekly group session and project feedback',
+                'Free for all four weeks',
               ]}
             />
             <div className="personal-signoff">
               <span className="lera-avatar">L</span>
               <div>
                 <strong>Lera</strong>
-                <span>Your guide & fellow builder</span>
+                <span>Your guide</span>
               </div>
             </div>
           </div>
@@ -241,30 +152,21 @@ export function Home() {
       </section>
       <section className="section container faq-section">
         <div>
-          <span className="eyebrow">GOOD QUESTIONS</span>
-          <h2>A few things to know.</h2>
+          <h2>A few questions</h2>
         </div>
         <div className="faq-list">
           {[
             [
-              'Do I need to know machine learning?',
-              'No. You should be comfortable with basic Python: variables, lists, loops, and functions. We will build the machine learning foundations together.',
+              'Am I ready for this?',
+              'You’ll need basic Python: variables, lists, loops, and functions. No machine learning experience is required. Plan for 4–6 hours each week.',
             ],
             [
-              'How much time should I set aside?',
-              'Plan for four to six hours each week, including lessons, your project work, and a group session. You can study the lessons on your own schedule.',
+              'When does it start?',
+              'We’ll confirm the start date and session times with the selected group. Lessons can be completed on your own schedule.',
             ],
             [
-              'When does the beta start?',
-              'The start date and group session times will be confirmed with the selected participants. Tell us your time zone and availability in the application.',
-            ],
-            [
-              'Is this really free?',
-              'Yes. This first four-week beta is free. In return, come ready to participate and give honest feedback about what helps you learn.',
-            ],
-            [
-              'Does everyone build the same project?',
-              'We use shared examples to learn the tools, but you choose your own small prediction problem and dataset. Your final project should reflect your interests.',
+              'What will I build?',
+              'Your own small machine learning project, using a public dataset. We’ll work through shared examples, then you’ll apply the ideas to a question you choose.',
             ],
           ].map(([q, a]) => (
             <details key={q}>
@@ -329,7 +231,7 @@ export function ApplicationForm() {
   };
   if (done)
     return (
-      <div className="application-card success-card">
+      <div id="apply" className="application-card success-card">
         <span className="success-icon">
           <CheckCircle2 size={34} />
         </span>
@@ -350,19 +252,14 @@ export function ApplicationForm() {
       </div>
     );
   return (
-    <div className="application-card">
+    <div id="apply" className="application-card">
       <div className="row spread">
         <span className="tiny-label">BETA APPLICATION</span>
         <span className="small-text muted">About 3 minutes</span>
       </div>
       <h3 ref={heading} tabIndex={-1}>
-        {step === 1 ? 'Let’s meet you.' : 'Tell us what sparks your curiosity.'}
+        {step === 1 ? 'About you' : 'Your idea & availability'}
       </h3>
-      <p className="muted">
-        {step === 1
-          ? 'No perfect portfolio needed. Just a place to start.'
-          : 'A little context helps us put the group together.'}
-      </p>
       <div className="form-progress" aria-label={`Step ${step} of 2`}>
         <span className="active" />
         <span className={step === 2 ? 'active' : ''} />
@@ -444,14 +341,12 @@ export function ApplicationForm() {
                   </datalist>
                 </label>
               </div>
-              <p className="field-help">
-                New to Python? Start with the free resources and join a future cohort.
-              </p>
+              <p className="field-help">Basic Python required. No ML experience needed.</p>
             </>
           ) : (
             <>
               <label>
-                What would you love to build?
+                What would you like to build?
                 <textarea
                   required
                   minLength={20}
@@ -478,7 +373,7 @@ export function ApplicationForm() {
                 />
               </label>
               <label>
-                When could you join a weekly group session?
+                Weekly session availability
                 <input
                   required
                   minLength={3}
@@ -554,15 +449,15 @@ export function Program() {
       </div>
       <div className="program-heading">
         <div>
-          <Pill>THE FIRST LEARNING PATH</Pill>
+          <Pill>4-WEEK FREE BETA</Pill>
           <h1>
             Machine learning,
             <br />
             <em>made by you.</em>
           </h1>
           <p className="lead">
-            Four weeks to turn basic Python into a project you can build, test, and explain. A clear
-            path, with room for your own ideas.
+            Build, test, and explain your own ML project. Three lessons and one project milestone
+            each week.
           </p>
           <div className="course-facts">
             <span>
@@ -580,13 +475,11 @@ export function Program() {
           </div>
         </div>
         <aside className="program-summary">
-          <span className="tiny-label">YOUR PLACE TO START</span>
-          <h2>
-            A little Python.
-            <br />A lot of curiosity.
-          </h2>
+          <span className="tiny-label">BEFORE YOU START</span>
+          <h2>Know the Python basics?</h2>
           <p>
-            Comfortable with variables, loops, lists, and functions? You’re ready to start here.
+            You’ll use variables, lists, loops, and functions. We’ll cover the machine learning
+            together.
           </p>
           <Link to="/#apply" className="button full">
             Apply for the free beta
@@ -599,18 +492,22 @@ export function Program() {
         </aside>
       </div>
       <div className="curriculum-header">
-        <h2>The path ahead</h2>
+        <h2>Curriculum</h2>
         <span className="muted">4 units · 12 lessons · 1 project of your own</span>
       </div>
       <div className="curriculum-list">
         {units.map((unit) => (
-          <article className="curriculum-unit" key={unit.id}>
-            <div className={`unit-number ${unit.color}`}>
-              0{unit.id}
-              <span>WEEK</span>
-            </div>
+          <details className="curriculum-accordion" key={unit.id} open={unit.id === 1}>
+            <summary>
+              <span className={`unit-tile ${unit.color}`}>0{unit.id}</span>
+              <div>
+                <span className="tiny-label">WEEK {unit.id}</span>
+                <h3>{unit.title}</h3>
+              </div>
+              <span className="accordion-meta">3 lessons</span>
+              <ChevronDown className="accordion-chevron" size={20} />
+            </summary>
             <div className="curriculum-detail">
-              <h3>{unit.title}</h3>
               <p>{unit.description}</p>
               <div className="curriculum-lessons">
                 {unit.lessons.map((lesson) => (
@@ -623,21 +520,13 @@ export function Program() {
               </div>
               <div className="milestone">
                 <Compass size={17} />
-                <strong>You’ll make:</strong> {unit.milestone}
+                <span>
+                  <strong>You’ll make:</strong> {unit.milestone}
+                </span>
               </div>
             </div>
-          </article>
+          </details>
         ))}
-      </div>
-      <div className="wide-cta">
-        <div>
-          <span className="eyebrow">YOU BRING THE IDEA</span>
-          <h2>Let’s build the rest, together.</h2>
-        </div>
-        <Link to="/#apply" className="button">
-          Join the first cohort
-          <ArrowRight size={17} />
-        </Link>
       </div>
     </div>
   );
@@ -657,12 +546,8 @@ export function Resources({ embedded = false }: { embedded?: boolean }) {
   return (
     <div className={embedded ? '' : 'container page-section'}>
       <div className="page-title">
-        <span className="eyebrow">THE GOOD STUFF, IN ONE PLACE</span>
-        <h1>Your curiosity shelf.</h1>
-        <p>
-          Useful readings from the people who make the tools. Pick a topic, take your time, and try
-          something.
-        </p>
+        <h1>Resources</h1>
+        <p>Readings and tools for each week of the program.</p>
       </div>
       <div className="resource-toolbar">
         <div className="search-input">
@@ -729,13 +614,6 @@ export function Resources({ embedded = false }: { embedded?: boolean }) {
           </button>
         </div>
       )}
-      <div className="resource-note">
-        <Leaf size={21} />
-        <p>
-          You don’t need to read everything at once. Start with the readings for your current week,
-          then put one idea into practice.
-        </p>
-      </div>
     </div>
   );
 }
@@ -752,8 +630,8 @@ export function About() {
             when you <em>make something.</em>
           </h1>
           <p className="lead">
-            That’s the idea behind Lerabyte Lab: a place for curious people to turn what they’re
-            learning into things they can actually build.
+            I’m building a small community where you learn by making things, with guidance and
+            feedback along the way.
           </p>
         </div>
         <div className="about-art">
@@ -762,21 +640,11 @@ export function About() {
         </div>
       </div>
       <div className="about-body">
-        <h2>Let’s start with a small, good group.</h2>
+        <h2>Start small. Build something real.</h2>
         <p>
-          The first version is a free, four-week machine learning beta. I’m putting together a
-          structured path of lessons, readings, assignments, and weekly group sessions for 15
-          participants.
-        </p>
-        <p>
-          We’ll work through examples together, but everyone will build a project of their own. I
-          want you to finish with something you understand well enough to change, question, and
-          explain.
-        </p>
-        <p>
-          This is the founding cohort. Your feedback will help shape what the lab becomes. Come
-          ready to ask questions, try things that might not work, and help make the group a place
-          where people can learn.
+          The first cohort is a free, four-week machine learning beta for 15 learners. I’ll guide
+          the lessons and group sessions. You’ll build your own project and help shape the program
+          with your feedback.
         </p>
         <div className="about-values">
           <div>
@@ -796,7 +664,7 @@ export function About() {
           </div>
         </div>
         <Link to="/#apply" className="button">
-          Find your place in the lab
+          Apply for the beta
           <ArrowRight size={17} />
         </Link>
       </div>
@@ -810,7 +678,7 @@ export function Sample() {
     <div className="container page-section sample-page">
       <div className="breadcrumb">
         <Link to="/program">The program</Link>
-        <span>/</span>A small taste
+        <span>/</span>Sample lesson
       </div>
       <Pill>SAMPLE LESSON · WEEK 01</Pill>
       <h1>
@@ -957,12 +825,11 @@ export function SignIn() {
         <span className="auth-icon">
           <Mail size={25} />
         </span>
-        <span className="eyebrow">YOUR CURIOSITY LIVES HERE</span>
-        <h1>{sent ? 'Check your inbox.' : 'Welcome to the lab.'}</h1>
+        <h1>{sent ? 'Check your inbox.' : 'Sign in'}</h1>
         <p>
           {sent
             ? `We’ll verify it’s you with a code sent to ${email}.`
-            : 'Sign in to your learning space or check the status of your beta application.'}
+            : 'Use the email you applied with.'}
         </p>
         <form onSubmit={submit}>
           {!sent ? (

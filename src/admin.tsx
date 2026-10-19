@@ -47,38 +47,16 @@ export function Admin() {
     { id: 'lessons', label: 'Lessons', icon: BookOpen },
     { id: 'reviews', label: 'Project reviews', icon: FileCheck2, count: reviews },
     { id: 'cohort', label: 'Cohort', icon: Users },
-    { id: 'session', label: 'Build room', icon: CalendarDays },
+    { id: 'session', label: 'Sessions', icon: CalendarDays },
   ];
   return (
     <>
       <div className="page-title">
-        <span className="eyebrow">THE WORK BEHIND THE GOOD STUFF</span>
-        <h1>Make room for curiosity.</h1>
-        <p>Review applications, shape the learning path, and help your cohort keep moving.</p>
-      </div>
-      <div className="admin-stats">
-        <div>
-          <span>Waiting for review</span>
-          <strong>{pending}</strong>
-        </div>
-        <div>
-          <span>Approved learners</span>
-          <strong>
-            {approved}
-            <small>/15</small>
-          </strong>
-        </div>
-        <div>
-          <span>Projects to review</span>
-          <strong>{reviews}</strong>
-        </div>
-        <div>
-          <span>Published lessons</span>
-          <strong>
-            {data.lessons.filter((l) => l.published).length}
-            <small>/12</small>
-          </strong>
-        </div>
+        <h1>Manage the lab</h1>
+        <p>
+          {approved} of 15 places filled · {data.lessons.filter((l) => l.published).length} lessons
+          published
+        </p>
       </div>
       <div className="admin-tabs" role="tablist" aria-label="Admin sections">
         {tabs.map((t) => (
@@ -126,11 +104,8 @@ function Applications({
     <>
       <div className="admin-section-heading">
         <div>
-          <h2>Meet your next builders.</h2>
-          <p>
-            Approved applicants can sign in with their application email. Let them know when their
-            place is ready.
-          </p>
+          <h2>Applications</h2>
+          <p>Approve a learner to give them access, then let them know their place is ready.</p>
         </div>
       </div>
       <div className="admin-filters">
@@ -271,8 +246,8 @@ function LessonEditor({
     <div className="lesson-editor">
       <div className="admin-section-heading">
         <div>
-          <h2>Make the next lesson a good one.</h2>
-          <p>Add your recording, edit the written guide, and choose when learners can access it.</p>
+          <h2>Edit lessons</h2>
+          <p>Add a video, edit the guide, and publish when ready.</p>
         </div>
       </div>
       <label className="lesson-select">
@@ -558,8 +533,8 @@ function SessionEditor({ session, refresh }: { session: Session; refresh: () => 
     <>
       <div className="admin-section-heading">
         <div>
-          <h2>Bring the group together.</h2>
-          <p>Set the next build room. Learners see the time in their own time zone.</p>
+          <h2>Session details</h2>
+          <p>Set the next session. Times display in each learner’s time zone.</p>
         </div>
       </div>
       <form className="panel session-editor" onSubmit={save} onChange={() => setSaved(false)}>

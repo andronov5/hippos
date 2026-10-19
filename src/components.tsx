@@ -108,9 +108,8 @@ export function PublicLayout() {
         <div className="container header-inner">
           <Logo />
           <nav className={open ? 'public-nav open' : 'public-nav'} aria-label="Main navigation">
-            <NavLink to="/program">The program</NavLink>
+            <NavLink to="/program">Program</NavLink>
             <NavLink to="/resources">Resources</NavLink>
-            <NavLink to="/about">Meet the lab</NavLink>
             <Link to={user ? '/learn' : '/signin'} className="mobile-signin">
               {user ? 'My learning' : 'Sign in'}
             </Link>
@@ -121,7 +120,7 @@ export function PublicLayout() {
               <ArrowUpRight size={15} />
             </Link>
             <Link to="/#apply" className="button small">
-              Join the beta
+              Apply
               <ArrowRight size={15} />
             </Link>
             <button
@@ -142,20 +141,18 @@ export function PublicLayout() {
         <div className="container footer-main">
           <div>
             <Logo />
-            <p>A little curiosity. A lot of possibility.</p>
+            <p>Learn machine learning by building.</p>
           </div>
           <div className="footer-links">
-            <Link to="/program">The program</Link>
-            <Link to="/resources">Resources</Link>
+            <Link to="/about">About Lera & the lab</Link>
+            <Link to="/program">Program</Link>
             <Link to="/privacy">Privacy</Link>
             <Link to="/signin">Sign in</Link>
           </div>
         </div>
         <div className="container footer-bottom">
           <span>© {new Date().getFullYear()} Lerabyte Lab</span>
-          <span>
-            Made for people who ask “what if?” <Sparkles size={14} />
-          </span>
+          <span>Free beta · 15 places</span>
         </div>
       </footer>
     </>

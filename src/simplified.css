@@ -1,0 +1,395 @@
+/* Keep the detail available, with a calmer first view of each page. */
+.path-preview {
+  padding: 0 0 65px;
+}
+.path-preview-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.path-preview-heading h2 {
+  font-size: 25px;
+}
+.path-preview ol {
+  list-style: none;
+  padding: 24px 0 0;
+  margin: 24px 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.path-preview li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+}
+.path-preview .unit-tile {
+  flex-shrink: 0;
+}
+.application-copy .check-list {
+  margin-top: 26px;
+}
+.curriculum-header {
+  padding-bottom: 20px;
+}
+.curriculum-header .muted {
+  text-align: right;
+}
+.curriculum-accordion {
+  border-bottom: 1px solid var(--line);
+}
+.curriculum-accordion > summary,
+.week-accordion > summary {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 18px;
+  cursor: pointer;
+}
+.curriculum-accordion > summary {
+  padding: 26px 0;
+}
+.curriculum-accordion > summary::-webkit-details-marker,
+.week-accordion > summary::-webkit-details-marker {
+  display: none;
+}
+.curriculum-accordion > summary > div,
+.week-heading-copy {
+  flex: 1;
+  min-width: 0;
+}
+.curriculum-accordion h3 {
+  font-size: 23px;
+  margin-top: 5px;
+}
+.accordion-meta {
+  font-size: 12px;
+  color: #626b58;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.accordion-chevron {
+  transition: transform 0.16s;
+}
+details[open] > summary > .accordion-chevron {
+  transform: rotate(180deg);
+}
+.curriculum-accordion > .curriculum-detail {
+  padding: 0 38px 26px 55px;
+}
+.curriculum-detail > p {
+  max-width: 65ch;
+}
+.curriculum-accordion .curriculum-lessons {
+  margin: 20px 0;
+}
+.program-heading {
+  margin-bottom: 48px;
+}
+.sidebar-bottom {
+  margin-top: auto;
+}
+.sidebar nav > a:last-child[href='/admin'] {
+  margin-top: 16px;
+  border-top: 1px solid #e0e6d7;
+  border-radius: 0;
+}
+.sidebar nav > a[href='/learn/resources'] {
+  margin-top: 12px;
+}
+.sidebar nav > a {
+  font-size: 13px;
+}
+.dashboard-greeting {
+  margin-bottom: 28px;
+}
+.simple-dashboard {
+  grid-template-columns: minmax(0, 1.8fr) minmax(250px, 1fr);
+  align-items: stretch;
+}
+.simple-dashboard .weekly-focus {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px;
+}
+.simple-dashboard .weekly-focus h2 {
+  margin: 20px 0 12px;
+  font-size: 25px;
+}
+.simple-dashboard .weekly-focus p {
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+.simple-dashboard .weekly-focus .text-link {
+  margin-top: auto;
+}
+.simple-dashboard .continue-body {
+  margin: 24px 0;
+}
+.simple-dashboard .continue-body h2 {
+  font-size: 30px;
+}
+.continue-progress .text-link {
+  font-size: 12px;
+}
+.dashboard-shortcuts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 24px;
+  gap: 24px;
+}
+.dashboard-shortcut {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid #e0e6d7;
+  border-radius: 10px;
+  background: #fff;
+  padding: 25px;
+}
+.dashboard-shortcut > div {
+  flex: 1;
+  min-width: 0;
+}
+.dashboard-shortcut h2 {
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+.dashboard-shortcut p {
+  font-size: 13px;
+  color: #626b58;
+  margin-top: 6px;
+}
+.dashboard-shortcut:hover {
+  border-color: #9ab47c;
+}
+.week-accordion > summary {
+  padding: 24px;
+}
+.week-accordion h2 {
+  font-size: 22px;
+  margin-top: 5px;
+}
+.week-accordion {
+  scroll-margin-top: 72px;
+}
+.week-accordion .lesson-row strong {
+  font-size: 14px;
+}
+.week-accordion .lesson-row div > span {
+  font-size: 12px;
+}
+.week-accordion .unit-assignment {
+  font-size: 13px;
+}
+.milestone-card.week-accordion {
+  padding: 0;
+}
+.milestone-card > summary > div {
+  flex: 1;
+  min-width: 0;
+}
+.milestone-card > summary > .pill {
+  font-size: 10px;
+}
+.milestone-content {
+  padding: 0 24px 24px;
+}
+.milestone-content > p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+  max-width: 75ch;
+}
+.milestone-content label {
+  font-size: 13px;
+}
+.rubric-details {
+  margin-top: 28px;
+}
+.rubric-details > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+}
+.rubric-details:not([open]) {
+  padding-bottom: 24px;
+}
+.rubric-details > summary::-webkit-details-marker {
+  display: none;
+}
+.lesson-jumps {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.lesson-jumps a {
+  padding: 8px 12px;
+  background: #edf2e4;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.lesson-jumps a:hover {
+  background: #dde8ca;
+}
+#reading,
+#practice,
+#check {
+  scroll-margin-top: 72px;
+}
+.written-lesson-note {
+  margin-top: 0;
+}
+.about-body {
+  margin-top: 35px;
+}
+.resource-grid .resource-card h2 {
+  line-height: 1.35;
+}
+@media (max-width: 1100px) {
+  .simple-dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .simple-dashboard .weekly-focus {
+    gap: 0;
+  }
+  .simple-dashboard .weekly-focus h2 {
+    margin-top: 12px;
+  }
+  .simple-dashboard .weekly-focus p {
+    max-width: 65ch;
+    margin-bottom: 18px;
+  }
+  .dashboard-shortcuts {
+    gap: 16px;
+  }
+}
+@media (max-width: 800px) {
+  .sidebar {
+    visibility: hidden;
+  }
+  .sidebar.open {
+    visibility: visible;
+  }
+  .path-preview ol {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .path-preview {
+    padding-bottom: 42px;
+  }
+  .curriculum-accordion h3 {
+    font-size: 20px;
+  }
+  .curriculum-accordion > .curriculum-detail {
+    padding: 0 0 24px;
+  }
+}
+@media (max-width: 600px) {
+  .path-preview-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .path-preview-heading h2 {
+    font-size: 23px;
+  }
+  .path-preview ol {
+    gap: 20px 14px;
+    margin-top: 18px;
+  }
+  .path-preview li {
+    align-items: flex-start;
+    font-size: 12px;
+    gap: 9px;
+  }
+  .path-preview .unit-tile {
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
+  }
+  .curriculum-accordion > summary {
+    gap: 12px;
+    padding: 22px 0;
+  }
+  .curriculum-accordion .accordion-meta {
+    display: none;
+  }
+  .curriculum-accordion h3 {
+    font-size: 18px;
+  }
+  .curriculum-header .muted {
+    text-align: left;
+  }
+  .simple-dashboard .continue-card,
+  .simple-dashboard .weekly-focus {
+    padding: 22px;
+  }
+  .simple-dashboard .continue-body {
+    grid-template-columns: 1fr;
+  }
+  .simple-dashboard .continue-body h2 {
+    font-size: 28px;
+  }
+  .simple-dashboard .continue-art {
+    display: none;
+  }
+  .simple-dashboard .continue-card > .row .small-text {
+    display: block;
+    font-size: 10px;
+  }
+  .dashboard-shortcuts {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .dashboard-shortcut {
+    padding: 22px;
+  }
+  .week-accordion > summary {
+    padding: 20px 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .week-accordion h2 {
+    font-size: 18px;
+  }
+  .week-accordion .week-heading-copy,
+  .milestone-card > summary > div {
+    flex-basis: calc(100% - 100px);
+  }
+  .week-accordion .accordion-meta,
+  .milestone-card > summary > .pill {
+    margin-left: 49px;
+  }
+  .week-accordion .accordion-chevron {
+    margin-left: auto;
+  }
+  .milestone-content {
+    padding: 0 18px 22px;
+  }
+  .milestone-content > p {
+    font-size: 13px;
+  }
+  .lesson-jumps {
+    gap: 6px;
+  }
+  .lesson-jumps a {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+.application-card {
+  scroll-margin-top: 140px;
+}
